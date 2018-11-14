@@ -10,7 +10,7 @@ If you have any questions, please contact Alex Kell at < first_name >< last_name
 
 Clone the repository
 ```
-$ git@github.com:davidlee1435/kelletal2018.git
+$ git clone git@github.com:davidlee1435/kelletal2018.git
 ```
 
 Run virtualenv and install dependencies. Make sure that your virtualenv uses Python 2.7
