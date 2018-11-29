@@ -42,3 +42,15 @@ $ jupyter notebook
 ```
 
 You should be able to run all the cells.
+
+Words we could use
+- also
+- call
+- cheese
+- fresh
+- into
+- need
+- small
+- store
+- these
+- things
