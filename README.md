@@ -13,12 +13,11 @@ Clone the repository
 $ git clone git@github.com:davidlee1435/kelletal2018.git
 ```
 
-Run virtualenv and install dependencies. Make sure that your virtualenv uses Python 2.7
+Run virtualenv. Make sure that your virtualenv uses Python 2.7
 ```
 $ cd kelletal2018
 $ virtualenv venv
 $ source venv/bin/activate
-$ pip install -r requirements.txt
 ```
 
 Install `pycochleagram`
@@ -29,6 +28,11 @@ $ cd pycochleagram
 $ python setup.py install
 $ cd ../kelletal2018
 $ rm -rf ../pycochleagram
+```
+
+Install other dependencies
+```
+$ pip install -r requirements.txt
 ```
 
 Add the virtualenv kernel to iPython
