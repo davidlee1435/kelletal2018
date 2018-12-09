@@ -12,9 +12,9 @@
 # `N: 680, sample_factor: 15, signal_length: 2433, sr: 32593, low_lim: 147, hi_lim: 16296, pad_factor: None`
 
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+#from __future__ import absolute_import
+#from __future__ import division
+#from __future__ import print_function
 
 from time import sleep
 import numpy as np
@@ -23,7 +23,6 @@ import scipy.signal
 import erbfilter as erb
 import subband as sb
 import matplotlib.pyplot as plt
-
 
 def cochleagram(signal, sr, n, low_lim, hi_lim, sample_factor,
         padding_size=None, downsample=None, nonlinearity=None,
@@ -128,6 +127,8 @@ def cochleagram(signal, sr, n, low_lim, hi_lim, sample_factor,
       sr, n, low_lim, hi_lim, sample_factor, padding_size=padding_size,
       full_filter=True, strict=strict, **erb_kwargs)
 
+  freqs[freqs==0] = 10**-10  
+
   # utils.filtshow(freqs, filts, hz_cutoffs, use_log_x=True)
   freqs_to_plot = np.log10(freqs)
 
@@ -143,6 +144,8 @@ def cochleagram(signal, sr, n, low_lim, hi_lim, sample_factor,
   # plt.show()
   # ipdb.set_trace()
   is_batch = batch_signal.shape[0] > 1
+
+  print "fdjsk"
   for i in range(batch_signal.shape[0]):
     # if is_batch:
     #   print('generating cochleagram -> %s/%s' % (i+1, batch_signal.shape[0]))
