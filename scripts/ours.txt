@@ -1,0 +1,30 @@
+(venv) davidlee@instance-1:~/dev/kelletal2018/data/cantonese/cantonese1$ mplayer -identify also.wav
+Creating config file: /home/davidlee/.mplayer/config
+MPlayer 1.3.0 (Debian), built with gcc-6.2.1 (C) 2000-2016 MPlayer Team
+do_connect: could not connect to socket
+connect: No such file or directory
+Failed to open LIRC support. You will not be able to use your remote control.
+
+Playing also.wav.
+libavformat version 57.56.101 (external)
+Mismatching header version 57.56.100
+ID_AUDIO_ID=0
+Audio only file format detected.
+Load subtitles in ./
+ID_FILENAME=also.wav
+ID_DEMUXER=audio
+ID_AUDIO_FORMAT=1
+ID_AUDIO_BITRATE=1411200
+ID_AUDIO_RATE=0
+ID_AUDIO_NCH=2
+ID_START_TIME=0.00
+ID_LENGTH=1.00
+ID_SEEKABLE=1
+ID_CHAPTERS=0
+==========================================================================
+Opening audio decoder: [pcm] Uncompressed PCM audio decoder
+AUDIO: 44100 Hz, 2 ch, s16le, 1411.2 kbit/100.00% (ratio: 176400->176400)
+ID_AUDIO_BITRATE=1411200
+ID_AUDIO_RATE=44100
+ID_AUDIO_NCH=2
+Selected audio codec: [pcm] afm: pcm (Uncompressed PCM)
