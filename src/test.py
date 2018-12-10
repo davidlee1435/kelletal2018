@@ -51,7 +51,7 @@ def generate_cochleagram(filename):
     # reshape to (256,256)
     c_gram_reshape_1 = np.reshape(c_gram_rescaled, (211,400))
     c_gram_reshape_2 = resample(c_gram_reshape_1,(256,256))
-    plot_cochleagram(c_gram_reshape_2, filename)
+    #plot_cochleagram(c_gram_reshape_2, filename)
 
     # prepare to run through network -- i.e., flatten it
     c_gram_flatten = np.reshape(c_gram_reshape_2, (1, 256*256)) 
@@ -60,13 +60,27 @@ def generate_cochleagram(filename):
 
 def test(language):
     data_directory = '/home/davidlee/dev/kelletal2018/data/' + language + '/'
-    
+    coch_directory = '/home/davidlee/dev/kelletal2018/cochleagrams/' + language + '/'
+    if not os.path.exists(coch_directory):
+        os.makedirs(coch_directory)
+
     for i in range(1, 103):
         directory = data_directory + language + str(i) + '/'
-        for word in allowed_word:
-            filepath = directory + word + '.wav'
-            if os.path.isfile(filepath):
 
+        if not os.path.exists(coch_directory + language + str(i) + '/'):
+            os.makedirs(coch_directory + language + str(i) + '/')
+        for word in allowed_words:
+            try:
+                filepath = directory + word + '.wav'
+                coch_filepath = coch_directory + language + str(i) + '/' + word + '.npy'
+                if os.path.isfile(filepath) and not os.path.isfile(coch_filepath):
+                    print "[INFO]: Reading from " + filepath
+                    print "[INFO]: Writing to " + coch_filepath
+                    c_gram = generate_cochleagram(filepath)  
+                    np.save(coch_filepath, c_gram)
+                    print "[PASS]: Successfully wrote " + coch_filepath
+            except:
+                print "[FAIL]: Couldn't generate cochleagram for " + filepath
 
 if __name__=="__main__":
     test('arabic')
