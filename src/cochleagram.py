@@ -145,7 +145,6 @@ def cochleagram(signal, sr, n, low_lim, hi_lim, sample_factor,
   # ipdb.set_trace()
   is_batch = batch_signal.shape[0] > 1
 
-  print "fdjsk"
   for i in range(batch_signal.shape[0]):
     # if is_batch:
     #   print('generating cochleagram -> %s/%s' % (i+1, batch_signal.shape[0]))

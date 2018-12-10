@@ -52,7 +52,6 @@ class branched_network(object):
         weights_biases.update(genre_branch)
         weights_biases.update(word_branch)
         self.layer_vars_dict = weights_biases
-
         #Make the graph
         self.session, self.word_logits, self.genre_logits = self.get_graph()
     
