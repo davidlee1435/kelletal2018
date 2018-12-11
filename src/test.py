@@ -82,5 +82,43 @@ def test(language):
             except:
                 print "[FAIL]: Couldn't generate cochleagram for " + filepath
 
+def score(language, top_n=50):
+    tf.reset_default_graph()
+    net_object = branched_network()
+    word_key = np.load('./demo_stim/logits_to_word_key.npy') # load logits to word key
+    music_key = np.load('./demo_stim/logits_to_genre_key.npy') # load logits to word key 
+    
+    coch_directory = '/home/davidlee/dev/kelletal2018/cochleagrams/' + language + '/'
+    if not os.path.exists(coch_directory):
+        raise Exception(language + ' cochleagrams not found')
+
+    num_words = 0
+    num_in_top_n = 0
+    for i in range(1, 103):
+        language_directory = coch_directory + language + str(i) + '/'
+        if not os.path.exists(language_directory):
+            print "Couldn't find " + language_directory
+            continue
+
+        for word in allowed_words:
+            coch_filepath = language_directory + word + '.npy'
+            if os.path.isfile(coch_filepath):
+                num_words += 1
+                c_gram = np.load(coch_filepath)
+                logits = net_object.session.run(net_object.word_logits, feed_dict={net_object.x: c_gram})
+                indices = logits[0].argsort()[-top_n:]
+                sorted_words = [word_key[i] for i in indices]
+                if word in sorted_words:
+                    num_in_top_n += 1
+            else:
+                print "Couldn't find " + coch_filepath
+    print "Num words in top " + str(top_n) + ": " + str(num_in_top_n)
+    print "Num total words: " + str(num_words)
+    print "Percentage: " + str(float(num_in_top_n)/num_words)
+
+
+
 if __name__=="__main__":
-    test('arabic')
+    #test('arabic')
+    score('arabic', top_n=5)
+
