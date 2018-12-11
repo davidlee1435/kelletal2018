@@ -68,7 +68,7 @@ def test(language):
     if not os.path.exists(coch_directory):
         os.makedirs(coch_directory)
 
-    for i in range(1, 24):
+    for i in range(1, 103):
         pool = ThreadPool(4)
         directory = data_directory + language + str(i) + '/'
 
@@ -81,7 +81,6 @@ def test(language):
             coch_filepath = coch_directory + language + str(i) + '/' + word + '.npy'
             if os.path.isfile(filepath) and not os.path.isfile(coch_filepath):
                 wav_to_coch.append((filepath, coch_filepath))
-        print wav_to_coch
         if wav_to_coch:
             results = pool.map(write_cochleagram, wav_to_coch)
         pool.close()
@@ -129,8 +128,6 @@ def score(language, top_n=50):
                 sorted_words = [word_key[i] for i in indices]
                 if word in sorted_words:
                     num_in_top_n += 1
-            else:
-                print "Couldn't find " + coch_filepath
     print "Num words in top " + str(top_n) + ": " + str(num_in_top_n)
     print "Num total words: " + str(num_words)
     print "Percentage: " + str(float(num_in_top_n)/num_words)
@@ -138,6 +135,6 @@ def score(language, top_n=50):
 
 
 if __name__=="__main__":
-    test('cantonese')
-    #score('arabic', top_n=5)
+    #test('arabic')
+    score('arabic', top_n=25)
 
