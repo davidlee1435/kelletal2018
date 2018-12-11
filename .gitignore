@@ -1,7 +1,6 @@
 .ipynb_checkpoints/
 *.out
 cochleagrams
-demo_stim
 data
 venv
 *.pyc
