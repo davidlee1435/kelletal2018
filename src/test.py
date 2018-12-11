@@ -9,6 +9,9 @@ import pickle
 import cochleagram as cgram
 from PIL import Image
 import matplotlib as plt
+
+from multiprocessing.dummy import Pool as ThreadPool
+
 allowed_words = [
     'also',
     'call',
@@ -59,28 +62,44 @@ def generate_cochleagram(filename):
     return c_gram_flatten
 
 def test(language):
+    pool = ThreadPool(4)
     data_directory = '/home/davidlee/dev/kelletal2018/data/' + language + '/'
     coch_directory = '/home/davidlee/dev/kelletal2018/cochleagrams/' + language + '/'
     if not os.path.exists(coch_directory):
         os.makedirs(coch_directory)
 
-    for i in range(1, 103):
+    for i in range(1, 24):
+        pool = ThreadPool(4)
         directory = data_directory + language + str(i) + '/'
 
         if not os.path.exists(coch_directory + language + str(i) + '/'):
             os.makedirs(coch_directory + language + str(i) + '/')
+        print "Trying " + directory
+        wav_to_coch = []
         for word in allowed_words:
-            try:
-                filepath = directory + word + '.wav'
-                coch_filepath = coch_directory + language + str(i) + '/' + word + '.npy'
-                if os.path.isfile(filepath) and not os.path.isfile(coch_filepath):
-                    print "[INFO]: Reading from " + filepath
-                    print "[INFO]: Writing to " + coch_filepath
-                    c_gram = generate_cochleagram(filepath)  
-                    np.save(coch_filepath, c_gram)
-                    print "[PASS]: Successfully wrote " + coch_filepath
-            except:
-                print "[FAIL]: Couldn't generate cochleagram for " + filepath
+            filepath = directory + word + '.wav'
+            coch_filepath = coch_directory + language + str(i) + '/' + word + '.npy'
+            if os.path.isfile(filepath) and not os.path.isfile(coch_filepath):
+                wav_to_coch.append((filepath, coch_filepath))
+        print wav_to_coch
+        if wav_to_coch:
+            results = pool.map(write_cochleagram, wav_to_coch)
+        pool.close()
+        pool.join()
+
+def write_cochleagram(filepaths):
+    filepath, coch_filepath = filepaths
+    try:
+        print "[INFO]: Reading from " + filepath
+        print "[INFO]: Writing to " + coch_filepath
+        c_gram = generate_cochleagram(filepath)  
+        np.save(coch_filepath, c_gram)
+        print "[PASS]: Successfully wrote " + coch_filepath
+    except:
+        print "[FAIL]: Couldn't generate cochleagram for " + filepath
+
+
+
 
 def score(language, top_n=50):
     tf.reset_default_graph()
@@ -119,6 +138,6 @@ def score(language, top_n=50):
 
 
 if __name__=="__main__":
-    #test('arabic')
-    score('arabic', top_n=5)
+    test('cantonese')
+    #score('arabic', top_n=5)
 
